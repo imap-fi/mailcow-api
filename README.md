@@ -22,6 +22,7 @@
         * [new module.exports.MailcowApiClient(baseurl, apikey)](#new_module_mailcow-api.MailcowApiClient_new)
         * [.getDomain([domain])](#module_mailcow-api.MailcowApiClient+getDomain) ⇒ <code>Array</code>
         * [.addDomain(domain)](#module_mailcow-api.MailcowApiClient+addDomain) ⇒ <code>Boolean</code>
+        * [.editDomain(domains, attributes)](#module_mailcow-api.MailcowApiClient+editDomain) ⇒ <code>Boolean</code>
 
 <a name="module_mailcow-api.MailcowApiClient"></a>
 
@@ -34,6 +35,7 @@ Class representing the Mailcow API client
     * [new module.exports.MailcowApiClient(baseurl, apikey)](#new_module_mailcow-api.MailcowApiClient_new)
     * [.getDomain([domain])](#module_mailcow-api.MailcowApiClient+getDomain) ⇒ <code>Array</code>
     * [.addDomain(domain)](#module_mailcow-api.MailcowApiClient+addDomain) ⇒ <code>Boolean</code>
+    * [.editDomain(domains, attributes)](#module_mailcow-api.MailcowApiClient+editDomain) ⇒ <code>Boolean</code>
 
 <a name="new_module_mailcow-api.MailcowApiClient_new"></a>
 
@@ -48,17 +50,7 @@ Create a Mailcow API client.
 
 **Example**  
 ```js
-(async () => {
-    require('dotenv').config();
-
-        const {
-        MailcowApiClient
-    } = require("./index.js")
-
-    const mc = new MailcowApiClient(process.env.MAILCOW_API_BASEURL, process.env.MAILCOW_API_KEY);
-
-    console.log(await mc.getDomain());
-})();
+const mc = new MailcowApiClient(process.env.MAILCOW_API_BASEURL, process.env.MAILCOW_API_KEY);
 ```
 <a name="module_mailcow-api.MailcowApiClient+getDomain"></a>
 
@@ -72,6 +64,10 @@ Gets a specific domain or all domains
 | --- | --- | --- | --- |
 | [domain] | <code>String</code> | <code>&#x27;all&#x27;</code> | the domain you want to get; defaults to all |
 
+**Example**  
+```js
+await mc.getDomain()
+```
 <a name="module_mailcow-api.MailcowApiClient+addDomain"></a>
 
 #### mailcowApiClient.addDomain(domain) ⇒ <code>Boolean</code>
@@ -84,6 +80,32 @@ adds a domain to the server
 | --- | --- | --- |
 | domain | [<code>Domain</code>](#Domain) | the domain you want to set add |
 
+**Example**  
+```js
+await mc.addDomain({
+            domain: "example.com",
+        }))
+```
+<a name="module_mailcow-api.MailcowApiClient+editDomain"></a>
+
+#### mailcowApiClient.editDomain(domains, attributes) ⇒ <code>Boolean</code>
+edits one or more domains on the server; applys the attributes to alls domains provided in the array
+
+**Kind**: instance method of [<code>MailcowApiClient</code>](#module_mailcow-api.MailcowApiClient)  
+**Returns**: <code>Boolean</code> - true on success  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| domains | <code>Array</code> | the domain you want to set using the Domain Object |
+| attributes | <code>Object</code> | attributes to change for all domains |
+
+**Example**  
+```js
+await mc.editDomain(["example.com"], {
+            aliases: 399
+        });
+        //this will set the aliases of example.com to 399
+```
 <a name="Domain"></a>
 
 ## Domain : <code>Object</code>
