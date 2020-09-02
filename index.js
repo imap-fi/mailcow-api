@@ -13,7 +13,21 @@ const f = require("node-fetch")
  * @prop {Number} [maxquota=10240]
  * @prop {Number} [quota=10240]
  * @example
- * 
+ * const d = {
+            active: 1,
+            domain: "example.com",
+            aliases: 400, // responding "object is not numeric" if missing is this a BUG? > should be "aliases missing" if cant be omited anyway
+            backupmx: 0,
+            defquota: 3072,
+            description: "dwa",
+            lang: "en",
+            mailboxes: 10,
+            maxquota: 10240,
+            quota: 10240,
+            relay_all_recipients: 0,
+            rl_frame: "s",
+            rl_value: 10
+        }
  *
  */
 
@@ -82,7 +96,8 @@ module.exports.MailcowApiClient = class {
      * @param {Array} domains the domain you want to set using the Domain Object
      * @param {Object} attributes attributes to change for all domains 
      * @returns {Boolean} true on success
-     * */
+     * 
+     */
 
 
 

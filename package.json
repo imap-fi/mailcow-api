@@ -4,14 +4,22 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "makedoc": "./generateDoc.sh"
   },
-  "author": "",
+  "repository": {
+    "type": "git",
+    "url": "http://git.firstdorsal.eu/firstdorsal/mailcow-api.git"
+  },
+  "homepage": "https://firstdorsal.eu/doc/mailcow-api/",
+  "author": "Paul Colin Hennig",
   "license": "MIT",
   "dependencies": {
     "node-fetch": "^2.6.0"
   },
   "devDependencies": {
-    "dotenv": "^8.2.0"
+    "dotenv": "^8.2.0",
+    "eslint": "^7.7.0",
+    "jsdoc": "^3.6.5",
+    "jsdoc-to-markdown": "^6.0.1"
   }
 }
