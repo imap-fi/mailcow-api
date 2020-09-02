@@ -110,7 +110,7 @@ const domain = {
             aliases: 400, // responding "object is not numeric" if missing is this a BUG? > should be "aliases missing" if cant be omited anyway
             backupmx: 0,
             defquota: 3072,
-            description: "Hello World!",
+            description: "Hello!",
             lang: "en",
             mailboxes: 10,
             maxquota: 10240,
