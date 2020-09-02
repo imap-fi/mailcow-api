@@ -62,7 +62,7 @@ Gets a specific domain or all domains
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
-| [domain] | <code>String</code> | <code>&#x27;all&#x27;</code> | the domain you want to get; defaults to all |
+| [domain] | <code>String</code> | <code>&#x27;all&#x27;</code> | the domain you want to get |
 
 **Example**  
 ```js
