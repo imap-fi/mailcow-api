@@ -1,3 +1,89 @@
+## Modules
+
+<dl>
+<dt><a href="#module_mailcow-api">mailcow-api</a></dt>
+<dd></dd>
+</dl>
+
+## Typedefs
+
+<dl>
+<dt><a href="#Domain">Domain</a> : <code>Object</code></dt>
+<dd><p>For all options check /api/#/Domains/Create%20domain</p>
+</dd>
+</dl>
+
+<a name="module_mailcow-api"></a>
+
+## mailcow-api
+
+* [mailcow-api](#module_mailcow-api)
+    * [.MailcowApiClient](#module_mailcow-api.MailcowApiClient)
+        * [new module.exports.MailcowApiClient(baseurl, apikey)](#new_module_mailcow-api.MailcowApiClient_new)
+        * [.getDomain([domain])](#module_mailcow-api.MailcowApiClient+getDomain) ⇒ <code>Array</code>
+        * [.addDomain(domain)](#module_mailcow-api.MailcowApiClient+addDomain) ⇒ <code>Boolean</code>
+
+<a name="module_mailcow-api.MailcowApiClient"></a>
+
+### mailcow-api.MailcowApiClient
+Class representing the mailcow-api-client
+
+**Kind**: static class of [<code>mailcow-api</code>](#module_mailcow-api)  
+
+* [.MailcowApiClient](#module_mailcow-api.MailcowApiClient)
+    * [new module.exports.MailcowApiClient(baseurl, apikey)](#new_module_mailcow-api.MailcowApiClient_new)
+    * [.getDomain([domain])](#module_mailcow-api.MailcowApiClient+getDomain) ⇒ <code>Array</code>
+    * [.addDomain(domain)](#module_mailcow-api.MailcowApiClient+addDomain) ⇒ <code>Boolean</code>
+
+<a name="new_module_mailcow-api.MailcowApiClient_new"></a>
+
+#### new module.exports.MailcowApiClient(baseurl, apikey)
+Create a mailcow api client.
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| baseurl | <code>string</code> | The base url where the api can be found |
+| apikey | <code>string</code> | The api key for the mailcow api endpoint |
+
+**Example**  
+```js
+(async () => {
+    require('dotenv').config();
+
+        const {
+        MailcowApiClient
+    } = require("./index.js")
+
+    const mc = new MailcowApiClient(process.env.MAILCOW_API_BASEURL, process.env.MAILCOW_API_KEY);
+
+    console.log(await mc.getDomain());
+})();
+```
+<a name="module_mailcow-api.MailcowApiClient+getDomain"></a>
+
+#### mailcowApiClient.getDomain([domain]) ⇒ <code>Array</code>
+gets the domain or domains on the mailcow server
+
+**Kind**: instance method of [<code>MailcowApiClient</code>](#module_mailcow-api.MailcowApiClient)  
+**Returns**: <code>Array</code> - array of domains  
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| [domain] | <code>String</code> | <code>&#x27;all&#x27;</code> | the domain you want to get; defaults to all |
+
+<a name="module_mailcow-api.MailcowApiClient+addDomain"></a>
+
+#### mailcowApiClient.addDomain(domain) ⇒ <code>Boolean</code>
+adds a domain to the server
+
+**Kind**: instance method of [<code>MailcowApiClient</code>](#module_mailcow-api.MailcowApiClient)  
+**Returns**: <code>Boolean</code> - true on success  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| domain | [<code>Domain</code>](#Domain) | the domain you want to set using the Domain Object |
+
 <a name="Domain"></a>
 
 ## Domain : <code>Object</code>

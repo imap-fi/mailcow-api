@@ -31,6 +31,23 @@ const f = require("node-fetch")
  *
  */
 
+
+/** @module mailcow-api */
+/** @class Class representing the mailcow-api-client 
+*@example 
+(async () => {
+    require('dotenv').config();
+
+        const {
+        MailcowApiClient
+    } = require("./index.js")
+
+    const mc = new MailcowApiClient(process.env.MAILCOW_API_BASEURL, process.env.MAILCOW_API_KEY);
+
+    console.log(await mc.getDomain());
+})();
+*/
+
 module.exports.MailcowApiClient = class {
     /**
      * Create a mailcow api client.
@@ -38,7 +55,6 @@ module.exports.MailcowApiClient = class {
      * @param {string} baseurl The base url where the api can be found
      * @param {string} apikey The api key for the mailcow api endpoint
      */
-
     constructor(baseurl, apikey) {
         this.baseurl = baseurl;
         this.apikey = apikey;
@@ -48,7 +64,6 @@ module.exports.MailcowApiClient = class {
      * @param {String} [domain='all'] the domain you want to get; defaults to all
      * @returns {Array} array of domains
      * */
-
     async getDomain(domain) {
         if (!domain || !domain.length) domain = "all"
         return f(`${this.baseurl}/api/v1/get/domain/${domain}`, {
