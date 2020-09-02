@@ -9,7 +9,7 @@
 
 <dl>
 <dt><a href="#Domain">Domain</a> : <code>Object</code></dt>
-<dd><p>For all options check /api/#/Domains/Create%20domain</p>
+<dd><p>For all options check out <a href="https://demo.mailcow.email/api/">https://demo.mailcow.email/api/</a></p>
 </dd>
 </dl>
 
@@ -26,7 +26,7 @@
 <a name="module_mailcow-api.MailcowApiClient"></a>
 
 ### mailcow-api.MailcowApiClient
-Class representing the mailcow-api-client
+Class representing the Mailcow API client
 
 **Kind**: static class of [<code>mailcow-api</code>](#module_mailcow-api)  
 
@@ -38,7 +38,7 @@ Class representing the mailcow-api-client
 <a name="new_module_mailcow-api.MailcowApiClient_new"></a>
 
 #### new module.exports.MailcowApiClient(baseurl, apikey)
-Create a mailcow api client.
+Create a Mailcow API client.
 
 
 | Param | Type | Description |
@@ -63,7 +63,7 @@ Create a mailcow api client.
 <a name="module_mailcow-api.MailcowApiClient+getDomain"></a>
 
 #### mailcowApiClient.getDomain([domain]) ⇒ <code>Array</code>
-gets the domain or domains on the mailcow server
+Gets a specific domain or all domains
 
 **Kind**: instance method of [<code>MailcowApiClient</code>](#module_mailcow-api.MailcowApiClient)  
 **Returns**: <code>Array</code> - array of domains  
@@ -82,12 +82,12 @@ adds a domain to the server
 
 | Param | Type | Description |
 | --- | --- | --- |
-| domain | [<code>Domain</code>](#Domain) | the domain you want to set using the Domain Object |
+| domain | [<code>Domain</code>](#Domain) | the domain you want to set add |
 
 <a name="Domain"></a>
 
 ## Domain : <code>Object</code>
-For all options check /api/#/Domains/Create%20domain
+For all options check out [https://demo.mailcow.email/api/](https://demo.mailcow.email/api/)
 
 **Kind**: global typedef  
 **Properties**
@@ -104,13 +104,13 @@ For all options check /api/#/Domains/Create%20domain
 
 **Example**  
 ```js
-const d = {
+const domain = {
             active: 1,
             domain: "example.com",
             aliases: 400, // responding "object is not numeric" if missing is this a BUG? > should be "aliases missing" if cant be omited anyway
             backupmx: 0,
             defquota: 3072,
-            description: "dwa",
+            description: "Hello World!",
             lang: "en",
             mailboxes: 10,
             maxquota: 10240,
