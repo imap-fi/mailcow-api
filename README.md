@@ -58,11 +58,11 @@ const mc = new MailcowApiClient(process.env.MAILCOW_API_BASEURL, process.env.MAI
 Gets a specific domain or all domains
 
 **Kind**: instance method of [<code>MailcowApiClient</code>](#module_mailcow-api.MailcowApiClient)  
-**Returns**: <code>Array</code> - array of domains  
+**Returns**: <code>Array</code> - Array of domains  
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
-| [domain] | <code>String</code> | <code>&#x27;all&#x27;</code> | the domain you want to get |
+| [domain] | <code>String</code> | <code>&#x27;all&#x27;</code> | The domain you want to get |
 
 **Example**  
 ```js
@@ -71,14 +71,14 @@ await mc.getDomain()
 <a name="module_mailcow-api.MailcowApiClient+addDomain"></a>
 
 #### mailcowApiClient.addDomain(domain) ⇒ <code>Boolean</code>
-adds a domain to the server
+Adds a domain to the server
 
 **Kind**: instance method of [<code>MailcowApiClient</code>](#module_mailcow-api.MailcowApiClient)  
-**Returns**: <code>Boolean</code> - true on success  
+**Returns**: <code>Boolean</code> - True on success  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| domain | [<code>Domain</code>](#Domain) | the domain you want to set add |
+| domain | [<code>Domain</code>](#Domain) | The domain you want to set add |
 
 **Example**  
 ```js
@@ -89,22 +89,22 @@ await mc.addDomain({
 <a name="module_mailcow-api.MailcowApiClient+editDomain"></a>
 
 #### mailcowApiClient.editDomain(domains, attributes) ⇒ <code>Boolean</code>
-edits one or more domains on the server; applys the attributes to all domains provided
+Edits one or more domains on the server; applys the attributes to all domains provided
 
 **Kind**: instance method of [<code>MailcowApiClient</code>](#module_mailcow-api.MailcowApiClient)  
-**Returns**: <code>Boolean</code> - true on success  
+**Returns**: <code>Boolean</code> - True on success  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| domains | <code>Array</code> \| <code>String</code> | the domains you want to edit |
-| attributes | <code>Object</code> | attributes to change for all domains provided domains |
+| domains | <code>Array</code> \| <code>String</code> | The domains you want to edit |
+| attributes | <code>Object</code> | Attributes to change for all domains provided domains |
 
 **Example**  
 ```js
 await mc.editDomain(["example.com"], {
             aliases: 399
         });
-        //this will set the aliases of example.com to 399
+        //This will set the aliases of example.com to 399
 ```
 <a name="Domain"></a>
 
@@ -116,9 +116,9 @@ For all options check out [https://demo.mailcow.email/api/](https://demo.mailcow
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| domain | <code>String</code> |  | name of the domain to add |
-| [active] | <code>Number</code> | <code>1</code> | wheter the domain should be active or not |
-| [aliases] | <code>Number</code> | <code>400</code> | number of aliases allowed |
+| domain | <code>String</code> |  | Name of the domain to add |
+| [active] | <code>Number</code> | <code>1</code> | Whether the domain should be active or not |
+| [aliases] | <code>Number</code> | <code>400</code> | Number of aliases allowed |
 | [defquota] | <code>Number</code> | <code>3072</code> |  |
 | [mailboxes] | <code>Number</code> | <code>10</code> |  |
 | [maxquota] | <code>Number</code> | <code>10240</code> |  |
