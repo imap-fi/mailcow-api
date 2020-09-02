@@ -1,25 +1,26 @@
 'use strict';
 const f = require("node-fetch")
 
+
 /**
- * For all options check /api/#/Domains/Create%20domain
+ * For all options check out {@link https://demo.mailcow.email/api/}
  * @typedef Domain
  * @type {Object}
- * @prop {String} domain name of the domain to add
- * @prop {Number} [active=1] wheter the domain should be active or not
- * @prop {Number} [aliases=400] number of aliases allowed
+ * @prop {String} domain Name of the domain to add
+ * @prop {Number} [active=1] Whether the domain should be active or not
+ * @prop {Number} [aliases=400] Number of aliases allowed
  * @prop {Number} [defquota=3072]
  * @prop {Number} [mailboxes=10]
  * @prop {Number} [maxquota=10240]
  * @prop {Number} [quota=10240]
  * @example
- * const d = {
+ * const domain = {
             active: 1,
             domain: "example.com",
             aliases: 400, // responding "object is not numeric" if missing is this a BUG? > should be "aliases missing" if cant be omited anyway
             backupmx: 0,
             defquota: 3072,
-            description: "dwa",
+            description: "Hello!",
             lang: "en",
             mailboxes: 10,
             maxquota: 10240,
@@ -33,8 +34,9 @@ const f = require("node-fetch")
 
 
 /** @module mailcow-api */
-/** @class Class representing the mailcow-api-client 
-*@example 
+/** 
+ * @class Class representing the Mailcow API client 
+ *@example 
 (async () => {
     require('dotenv').config();
 
@@ -50,19 +52,23 @@ const f = require("node-fetch")
 
 module.exports.MailcowApiClient = class {
     /**
-     * Create a mailcow api client.
+     * Create a Mailcow API client.
      * @constructor
      * @param {string} baseurl The base url where the api can be found
      * @param {string} apikey The api key for the mailcow api endpoint
+     * @example
+     * const mc = new MailcowApiClient(process.env.MAILCOW_API_BASEURL, process.env.MAILCOW_API_KEY);
      */
     constructor(baseurl, apikey) {
         this.baseurl = baseurl;
         this.apikey = apikey;
     }
     /**
-     * gets the domain or domains on the mailcow server
-     * @param {String} [domain='all'] the domain you want to get; defaults to all
-     * @returns {Array} array of domains
+     * Gets a specific domain or all domains
+     * @param {String} [domain='all'] The domain you want to get
+     * @returns {Array} Array of domains
+     * @example
+     * await mc.getDomain()
      * */
     async getDomain(domain) {
         if (!domain || !domain.length) domain = "all"
@@ -78,9 +84,13 @@ module.exports.MailcowApiClient = class {
         })
     }
     /**
-     * adds a domain to the server
-     * @param {Domain} domain the domain you want to set using the Domain Object
-     * @returns {Boolean} true on success
+     * Adds a domain to the server
+     * @param {Domain} domain The domain you want to set add
+     * @returns {Boolean} True on success
+     * @example
+        await mc.addDomain({
+            domain: "example.com",
+        }))
      * */
     async addDomain(domain) {
         if (!domain) throw new Error('Missing Domain Object');
@@ -107,12 +117,38 @@ module.exports.MailcowApiClient = class {
         });
     }
     /**
-     * edits one or more domains on the server; applys the attributes to alls domains provided in the array
-     * @param {Array} domains the domain you want to set using the Domain Object
-     * @param {Object} attributes attributes to change for all domains 
-     * @returns {Boolean} true on success
-     * 
+     * Edits one or more domains on the server. Applies the attributes to all domains provided.
+     * @param {Array|String} domains The domains you want to edit
+     * @param {Object} attributes Attributes to change for all domains provided domains
+     * @returns {Boolean} True on success
+     * @example
+        await mc.editDomain(["example.com"], {
+            aliases: 399
+        });
+        //This will set the aliases of example.com to 399
      */
+    async editDomain(domains, attributes) {
+        if (typeof domains === 'string') domains = [domains]
+
+
+        const body = {
+            items: domains,
+            attr: attributes
+        }
+
+        return f(`${this.baseurl}/api/v1/edit/domain`, {
+            method: 'POST',
+            headers: {
+                'X-Api-Key': this.apikey,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(body)
+        }).then(async (res) => {
+            const j = await res.json().catch();
+            if (j[0].type === 'success') return true;
+            return false;
+        });
+    }
 
 
 
