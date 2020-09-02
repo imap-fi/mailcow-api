@@ -89,15 +89,15 @@ await mc.addDomain({
 <a name="module_mailcow-api.MailcowApiClient+editDomain"></a>
 
 #### mailcowApiClient.editDomain(domains, attributes) ⇒ <code>Boolean</code>
-edits one or more domains on the server; applys the attributes to alls domains provided in the array
+edits one or more domains on the server; applys the attributes to all domains provided
 
 **Kind**: instance method of [<code>MailcowApiClient</code>](#module_mailcow-api.MailcowApiClient)  
 **Returns**: <code>Boolean</code> - true on success  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| domains | <code>Array</code> | the domain you want to set using the Domain Object |
-| attributes | <code>Object</code> | attributes to change for all domains |
+| domains | <code>Array</code> \| <code>String</code> | the domains you want to edit |
+| attributes | <code>Object</code> | attributes to change for all domains provided domains |
 
 **Example**  
 ```js
