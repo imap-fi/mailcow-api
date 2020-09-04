@@ -318,7 +318,7 @@ For all options check out [https://demo.mailcow.email/api/](https://demo.mailcow
 
 **Example**  
 ```js
-const domain = {
+{
             active: 1,
             domain: "example.com",
             aliases: 400, // responding "object is not numeric" if missing is this a BUG? > should be "aliases missing" if cant be omited anyway
@@ -353,7 +353,7 @@ Object representing a DKIM Key
 {
   "domain": "example.com",
   "dkim_selector": "dkim",
-  "key_size": "2048"
+  "key_size": 2048
  }
 ```
 <a name="DomainAdmin"></a>
@@ -404,7 +404,7 @@ Object representing a mailbox
   "local_part": "john.doe",
   "name": "John Doe",
   "password": "paulIstToll",
-  "quota": "3072",
+  "quota": 3072,
   "active": 1
 }
 ```
