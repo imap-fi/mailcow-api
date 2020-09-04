@@ -1,7 +1,7 @@
 {
   "name": "mailcow-api",
-  "version": "1.0.0",
-  "description": "",
+  "version": "1.1.0",
+  "description": "A wrapper for the mailcow API with basic functions",
   "main": "index.js",
   "scripts": {
     "makedoc": "./generateDoc.sh"
@@ -14,7 +14,8 @@
   "author": "Paul Colin Hennig",
   "license": "MIT",
   "dependencies": {
-    "node-fetch": "^2.6.0"
+    "node-fetch": "^2.6.0",
+    "randomstring": "^1.1.5"
   },
   "devDependencies": {
     "dotenv": "^8.2.0",
