@@ -14,21 +14,21 @@ const rs = require("randomstring");
  * @prop {Number} [maxquota=10240]
  * @prop {Number} [quota=10240]
  * @example
- * const domain = {
-            active: 1,
-            domain: "example.com",
-            aliases: 400, // responding "object is not numeric" if missing is this a BUG? > should be "aliases missing" if cant be omited anyway
-            backupmx: 0,
-            defquota: 3072,
-            description: "Hello!",
-            lang: "en",
-            mailboxes: 10,
-            maxquota: 10240,
-            quota: 10240,
-            relay_all_recipients: 0,
-            rl_frame: "s",
-            rl_value: 10
-        }
+ * {
+    active: 1,
+    domain: "example.com",
+    aliases: 400, // responding "object is not numeric" if missing is this a BUG? should be "aliases missing" if cant be omited anyway
+    backupmx: 0,
+    defquota: 3072,
+    description: "Hello!",
+    lang: "en",
+    mailboxes: 10,
+    maxquota: 10240,
+    quota: 10240,
+    relay_all_recipients: 0,
+    rl_frame: "s",
+    rl_value: 10
+    }
  *
  */
 
@@ -44,7 +44,7 @@ const rs = require("randomstring");
  {
   "domain": "example.com",
   "dkim_selector": "dkim",
-  "key_size": "2048"
+  "key_size": 2048
  }
 */
 
@@ -81,7 +81,7 @@ const rs = require("randomstring");
   "local_part": "john.doe",
   "name": "John Doe",
   "password": "paulIstToll",
-  "quota": "3072",
+  "quota": 3072,
   "active": 1
 }
  
@@ -157,7 +157,8 @@ module.exports.MailcowApiClient = class {
     async addDomain(domain) {
         if (!domain) throw new Error('Missing Domain Object');
         if (!domain.domain) throw new Error('Domain object must contain a value for domain. Example: {domain:"example.com"}');
-        if (!domain.domain.match(/[A-Za-z0-9]+\.[A-Za-z0-9]+$/)) throw new Error('domain name is invalid');
+        if (!domain.domain.match(/[A-Z-a-z0-9]+\.[A-Z-a-z0-9]+$/)) throw new Error('domain name is invalid');
+
         domain.active = typeof (domain.active) == 'undefined' ? 1 : domain.active;
         domain.aliases = typeof (domain.aliases) == 'undefined' ? 400 : domain.aliases;
         domain.defquota = typeof (domain.defquota) == 'undefined' ? 3072 : domain.defquota;
@@ -210,7 +211,6 @@ module.exports.MailcowApiClient = class {
             return false;
         });
     }
-
     /**
      * Generates a DKIM domain key for a domain
      * @param {DKIM} dkim A DKIM object 
@@ -226,7 +226,8 @@ module.exports.MailcowApiClient = class {
         delete dkim.domain;
         if (!dkim) throw new Error('DKIM Key must be provided as DKIM Object');
         if (!dkim.domains) throw new Error('DKIM object must contain a domain name. Example: {domains:"example.com"}');
-        if (!dkim.domains.match(/[A-Za-z0-9]+\.[A-Za-z0-9]+$/)) throw new Error('domain name is invalid');
+        if (!dkim.domains.match(/[A-Z-a-z0-9]+\.[A-Z-a-z0-9]+$/)) throw new Error('domain name is invalid');
+
         dkim.dkim_selector = typeof (dkim.dkim_selector) == 'undefined' ? 'dkim' : dkim.dkim_selector;
         dkim.key_size = typeof (dkim.key_size) == 'undefined' ? 2048 : dkim.key_size;
 
@@ -243,7 +244,6 @@ module.exports.MailcowApiClient = class {
             console.error(j);
             return false;
         });
-
     }
     /**
      * Gets the DKIM key for a domain on the mailcow server
@@ -280,8 +280,7 @@ module.exports.MailcowApiClient = class {
         if (!domainAdmin) throw new Error('Domain admin must be provided as DomainAdmin Object');
         if (!domainAdmin.domains) throw new Error('Domain admin object must contain a domain name. Example: {domains:"example.com"}');
         if (typeof domainAdmin.domains === 'string') domainAdmin.domains = [domainAdmin.domains];
-
-        if (!domainAdmin.domains[0].match(/[A-Za-z0-9]+\.[A-Za-z0-9]+$/)) throw new Error('domain name is invalid');
+        if (!domainAdmin.domains[0].match(/[A-Z-a-z0-9]+\.[A-Z-a-z0-9]+$/)) throw new Error('domain name is invalid');
 
         domainAdmin.active = typeof (domainAdmin.active) == 'undefined' ? 1 : domainAdmin.active;
         domainAdmin.password = typeof (domainAdmin.password) == 'undefined' ? rs.generate(100) : domainAdmin.password;
@@ -321,7 +320,7 @@ module.exports.MailcowApiClient = class {
     async addMailbox(mailbox) {
         if (!mailbox) throw new Error('Mailbox must be provided as Mailbox Object');
         if (!mailbox.domain) throw new Error('Mailbox object must at least contain a domain name. Example: {domain:"example.com"}');
-        if (!mailbox.domain.match(/[A-Za-z0-9]+\.[A-Za-z0-9]+$/)) throw new Error('domain name is invalid');
+        if (!mailbox.domain.match(/[A-Z-a-z0-9]+\.[A-Z-a-z0-9]+$/)) throw new Error('domain name is invalid');
 
         mailbox.active = typeof (mailbox.active) == 'undefined' ? 1 : mailbox.active;
         mailbox.password = typeof (mailbox.password) == 'undefined' ? rs.generate(100) : mailbox.password;
@@ -329,7 +328,6 @@ module.exports.MailcowApiClient = class {
         mailbox.quota = typeof (mailbox.quota) == 'undefined' ? 3072 : mailbox.quota;
         mailbox.name = typeof (mailbox.name) == 'undefined' ? 'John Doe' : mailbox.name;
         mailbox.local_part = typeof (mailbox.local_part) == 'undefined' ? 'mail' : mailbox.local_part;
-
 
         return f(`${this.baseurl}/api/v1/add/mailbox`, {
             method: 'POST',
@@ -362,7 +360,7 @@ module.exports.MailcowApiClient = class {
      */
     async deleteMailbox(mailboxes) {
         if (typeof mailboxes === 'string') mailboxes = [mailboxes];
-        if (!mailboxes[0].match(/[A-Za-z0-9]+\.[A-Za-z0-9]+$/)) throw new Error('domain name is invalid');
+        if (!mailboxes[0].match(/[A-Z-a-z0-9]+\.[A-Z-a-z0-9]+$/)) throw new Error('domain name is invalid');
 
         return f(`${this.baseurl}/api/v1/delete/mailbox`, {
             method: 'POST',
@@ -377,10 +375,5 @@ module.exports.MailcowApiClient = class {
             console.error(j);
             return false;
         });
-
     }
-
-
-
-
 }
