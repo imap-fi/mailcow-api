@@ -63,7 +63,7 @@ andOTP can be used for 2FA with many services and is way better then the Google 
 **[Documentation for THIS wrapper](https://firstdorsal.eu/doc/mailcow-api/)**
 
 # Need help or missing a feature?
-Feel free to contact me via [xl9jthv_7bvgakv9o9wg0jabn2ylm91xxrzzgt0e@firstdorsal.eu](mailto:xl9jthv_7bvgakv9o9wg0jabn2ylm91xxrzzgt0e@firstdorsal.eu) in english or german
+Feel free to contact me via [xl9jthv_7bvgakv9o9wg0jabn2ylm91xxrzzgt0e@y.gy](mailto:xl9jthv_7bvgakv9o9wg0jabn2ylm91xxrzzgt0e@y.gy) in english or german
 
 ## Mailcow API Documentation
 [Apiary](https://mailcow.docs.apiary.io/)
@@ -75,7 +75,7 @@ Feel free to contact me via [xl9jthv_7bvgakv9o9wg0jabn2ylm91xxrzzgt0e@firstdorsa
 
 [Documentation](https://firstdorsal.eu/doc/mailcow-api/)
 
-[Code on Gitlab](https://git.firstdorsal.eu/firstdorsal/mailcow-api)
+[Code on Gitlab](https://git.y.gy/firstdorsal/mailcow-api)
 
 
 
@@ -150,7 +150,21 @@ Create a Mailcow API client.
 
 **Example**  
 ```js
-const mcc = new MailcowApiClient(process.env.MAILCOW_API_BASEURL, process.env.MAILCOW_API_KEY);
+(async () => {
+    //get global variables
+    require('dotenv').config();
+    
+    //import the api client module
+    const {
+        MailcowApiClient
+    } = require("mailcow-api")
+
+    //create new mailcow api client with endpoint/baseurl and the api key
+    const mcc = new MailcowApiClient(process.env.MAILCOW_API_BASEURL, process.env.MAILCOW_API_KEY);
+
+    //get all domain on mailcow server
+    console.log(await mcc.getDomain());
+})();
 ```
 <a name="module_mailcow-api.MailcowApiClient+getDomain"></a>
 
@@ -319,20 +333,20 @@ For all options check out [https://demo.mailcow.email/api/](https://demo.mailcow
 **Example**  
 ```js
 {
-            active: 1,
-            domain: "example.com",
-            aliases: 400, // responding "object is not numeric" if missing is this a BUG? > should be "aliases missing" if cant be omited anyway
-            backupmx: 0,
-            defquota: 3072,
-            description: "Hello!",
-            lang: "en",
-            mailboxes: 10,
-            maxquota: 10240,
-            quota: 10240,
-            relay_all_recipients: 0,
-            rl_frame: "s",
-            rl_value: 10
-        }
+    active: 1,
+    domain: "example.com",
+    aliases: 400, // responding "object is not numeric" if missing is this a BUG? should be "aliases missing" if cant be omited anyway
+    backupmx: 0,
+    defquota: 3072,
+    description: "Hello!",
+    lang: "en",
+    mailboxes: 10,
+    maxquota: 10240,
+    quota: 10240,
+    relay_all_recipients: 0,
+    rl_frame: "s",
+    rl_value: 10
+    }
 ```
 <a name="DKIM"></a>
 
