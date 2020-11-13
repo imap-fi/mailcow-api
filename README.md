@@ -60,7 +60,7 @@ andOTP can be used for 2FA with many services and is way better then the Google 
 
 
 # Documentation
-**[Documentation for THIS wrapper](https://firstdorsal.eu/doc/mailcow-api/)**
+**[Here](https://firstdorsal.eu/doc/mailcow-api/)**
 
 # Need help or missing a feature?
 Feel free to contact me via [xl9jthv_7bvgakv9o9wg0jabn2ylm91xxrzzgt0e@y.gy](mailto:xl9jthv_7bvgakv9o9wg0jabn2ylm91xxrzzgt0e@y.gy) in english or german
@@ -75,7 +75,7 @@ Feel free to contact me via [xl9jthv_7bvgakv9o9wg0jabn2ylm91xxrzzgt0e@y.gy](mail
 
 [Documentation](https://firstdorsal.eu/doc/mailcow-api/)
 
-[Code on Gitlab](https://git.y.gy/firstdorsal/mailcow-api)
+[Code](https://git.y.gy/firstdorsal/mailcow-api)
 
 
 
@@ -150,21 +150,7 @@ Create a Mailcow API client.
 
 **Example**  
 ```js
-(async () => {
-    //get global variables
-    require('dotenv').config();
-    
-    //import the api client module
-    const {
-        MailcowApiClient
-    } = require("mailcow-api")
-
-    //create new mailcow api client with endpoint/baseurl and the api key
-    const mcc = new MailcowApiClient(process.env.MAILCOW_API_BASEURL, process.env.MAILCOW_API_KEY);
-
-    //get all domain on mailcow server
-    console.log(await mcc.getDomain());
-})();
+const mcc = new MailcowApiClient(process.env.MAILCOW_API_BASEURL, process.env.MAILCOW_API_KEY);
 ```
 <a name="module_mailcow-api.MailcowApiClient+getDomain"></a>
 
