@@ -60,7 +60,7 @@ andOTP can be used for 2FA with many services and is way better then the Google 
 
 
 # Documentation
-**[Here](https://firstdorsal.eu/doc/mailcow-api/)**
+**[Here](https://doc.y.gy/mailcow-api/)**
 
 # Need help or missing a feature?
 Feel free to contact me via [xl9jthv_7bvgakv9o9wg0jabn2ylm91xxrzzgt0e@y.gy](mailto:xl9jthv_7bvgakv9o9wg0jabn2ylm91xxrzzgt0e@y.gy) in english or german
@@ -73,7 +73,7 @@ Feel free to contact me via [xl9jthv_7bvgakv9o9wg0jabn2ylm91xxrzzgt0e@y.gy](mail
 ## Links
 [NPM](https://www.npmjs.com/package/mailcow-api)
 
-[Documentation](https://firstdorsal.eu/doc/mailcow-api/)
+[Documentation](https://doc.y.gy/mailcow-api/)
 
 [Code](https://git.y.gy/firstdorsal/mailcow-api)
 
