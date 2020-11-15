@@ -115,6 +115,8 @@ Feel free to contact me via [xl9jthv_7bvgakv9o9wg0jabn2ylm91xxrzzgt0e@y.gy](mail
         * [.editDomain(domains, attributes)](#module_mailcow-api.MailcowApiClient+editDomain) ⇒ <code>Boolean</code>
         * [.addDKIM(dkim)](#module_mailcow-api.MailcowApiClient+addDKIM) ⇒ <code>Boolean</code>
         * [.getDKIM(domain)](#module_mailcow-api.MailcowApiClient+getDKIM) ⇒ <code>Object</code>
+        * [.deleteDKIM(domain)](#module_mailcow-api.MailcowApiClient+deleteDKIM) ⇒ <code>Boolean</code>
+        * [.addAndGetDKIM(dkim)](#module_mailcow-api.MailcowApiClient+addAndGetDKIM) ⇒ <code>Object</code>
         * [.addDomainAdmin(domainAdmin)](#module_mailcow-api.MailcowApiClient+addDomainAdmin) ⇒ <code>Object</code>
         * [.addMailbox(mailbox)](#module_mailcow-api.MailcowApiClient+addMailbox) ⇒ <code>Object</code>
         * [.deleteMailbox(mailboxes)](#module_mailcow-api.MailcowApiClient+deleteMailbox) ⇒ <code>Boolean</code>
@@ -133,6 +135,8 @@ Class representing the Mailcow API client
     * [.editDomain(domains, attributes)](#module_mailcow-api.MailcowApiClient+editDomain) ⇒ <code>Boolean</code>
     * [.addDKIM(dkim)](#module_mailcow-api.MailcowApiClient+addDKIM) ⇒ <code>Boolean</code>
     * [.getDKIM(domain)](#module_mailcow-api.MailcowApiClient+getDKIM) ⇒ <code>Object</code>
+    * [.deleteDKIM(domain)](#module_mailcow-api.MailcowApiClient+deleteDKIM) ⇒ <code>Boolean</code>
+    * [.addAndGetDKIM(dkim)](#module_mailcow-api.MailcowApiClient+addAndGetDKIM) ⇒ <code>Object</code>
     * [.addDomainAdmin(domainAdmin)](#module_mailcow-api.MailcowApiClient+addDomainAdmin) ⇒ <code>Object</code>
     * [.addMailbox(mailbox)](#module_mailcow-api.MailcowApiClient+addMailbox) ⇒ <code>Object</code>
     * [.deleteMailbox(mailboxes)](#module_mailcow-api.MailcowApiClient+deleteMailbox) ⇒ <code>Boolean</code>
@@ -241,6 +245,42 @@ Gets the DKIM key for a domain on the mailcow server
 ```js
 await mcc.getDKIM('example.com')
         //This will get the DKIM key for the domain example.com from the mailcow server
+```
+<a name="module_mailcow-api.MailcowApiClient+deleteDKIM"></a>
+
+#### mailcowApiClient.deleteDKIM(domain) ⇒ <code>Boolean</code>
+Deletes the DKIM key for a domain on the mailcow server
+
+**Kind**: instance method of [<code>MailcowApiClient</code>](#module_mailcow-api.MailcowApiClient)  
+**Returns**: <code>Boolean</code> - true on success  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| domain | <code>String</code> | the domain name you want to delete the key for |
+
+**Example**  
+```js
+await mcc.deleteDKIM('example.com')
+        //This will delete the DKIM key for the domain example.com from the mailcow server
+```
+<a name="module_mailcow-api.MailcowApiClient+addAndGetDKIM"></a>
+
+#### mailcowApiClient.addAndGetDKIM(dkim) ⇒ <code>Object</code>
+Generates a DKIM domain key for a domain and returns it
+
+**Kind**: instance method of [<code>MailcowApiClient</code>](#module_mailcow-api.MailcowApiClient)  
+**Returns**: <code>Object</code> - DKIM key on success  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| dkim | [<code>DKIM</code>](#DKIM) | A DKIM object |
+
+**Example**  
+```js
+await mcc.addAndGetDKIM({
+            domain: "example.com",
+        })
+        //This will generate a DKIM key for example.com on the mailcow server and return it
 ```
 <a name="module_mailcow-api.MailcowApiClient+addDomainAdmin"></a>
 
