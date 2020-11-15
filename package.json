@@ -1,6 +1,6 @@
 {
   "name": "mailcow-api",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "A wrapper for the mailcow API with basic functions",
   "main": "index.js",
   "repository": {
