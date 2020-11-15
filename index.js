@@ -223,7 +223,6 @@ module.exports.MailcowApiClient = class {
      */
     async addDKIM(dkim) {
         dkim.domains = dkim.domain;
-        delete dkim.domain;
         if (!dkim) throw new Error('DKIM Key must be provided as DKIM Object');
         if (!dkim.domains) throw new Error('DKIM object must contain a domain name. Example: {domains:"example.com"}');
         if (!dkim.domains.match(/[A-Z-a-z0-9]+\.[A-Z-a-z0-9]+$/)) throw new Error('domain name is invalid');
