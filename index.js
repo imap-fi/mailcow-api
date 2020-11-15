@@ -260,10 +260,48 @@ module.exports.MailcowApiClient = class {
             }
         }).then(async (res) => {
             const j = await res.json().catch();
-            if (j) return j
+            if (j.pubkey) return j;
+            return false;
+        });
+    }
+    /**
+     * Deletes the DKIM key for a domain on the mailcow server
+     * @param {String} domain the domain name you want to delete the key for
+     * @returns {Boolean} true on success 
+     * @example
+        await mcc.deleteDKIM('example.com')
+        //This will delete the DKIM key for the domain example.com from the mailcow server
+     */
+    async deleteDKIM(domain) {
+        return f(`${this.baseurl}/api/v1/delete/dkim/`, {
+            method: 'POST',
+            headers: {
+                'X-Api-Key': this.apikey,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify([domain])
+        }).then(async (res) => {
+            const j = await res.json().catch();
+            if (j && j[0] && j[0].type === 'success') return true;
             console.error(j);
             return false;
         });
+    }
+    /**
+     * Generates a DKIM domain key for a domain and returns it
+     * @param {DKIM} dkim A DKIM object 
+     * @returns {Object} DKIM key on success
+     * @example
+        await mcc.addAndGetDKIM({
+            domain: "example.com",
+        })
+        //This will generate a DKIM key for example.com on the mailcow server and return it
+     */
+    async addAndGetDKIM(dkim) {
+        const res = await this.getDKIM(dkim.domain);
+        if (res) return res;
+        await this.addDKIM(dkim);
+        return await this.getDKIM(dkim.domain);
     }
     /**
      * Adds a domain admin to the mailcow server
