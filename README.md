@@ -113,6 +113,7 @@ Feel free to contact me via [xl9jthv_7bvgakv9o9wg0jabn2ylm91xxrzzgt0e@y.gy](mail
         * [.getDomain([domain])](#module_mailcow-api.MailcowApiClient+getDomain) ⇒ <code>Array</code>
         * [.addDomain(domain)](#module_mailcow-api.MailcowApiClient+addDomain) ⇒ <code>Boolean</code>
         * [.editDomain(domains, attributes)](#module_mailcow-api.MailcowApiClient+editDomain) ⇒ <code>Boolean</code>
+        * [.deleteDomain(domain)](#module_mailcow-api.MailcowApiClient+deleteDomain) ⇒ <code>Boolean</code>
         * [.addDKIM(dkim)](#module_mailcow-api.MailcowApiClient+addDKIM) ⇒ <code>Boolean</code>
         * [.getDKIM(domain)](#module_mailcow-api.MailcowApiClient+getDKIM) ⇒ <code>Object</code>
         * [.deleteDKIM(domain)](#module_mailcow-api.MailcowApiClient+deleteDKIM) ⇒ <code>Boolean</code>
@@ -133,6 +134,7 @@ Class representing the Mailcow API client
     * [.getDomain([domain])](#module_mailcow-api.MailcowApiClient+getDomain) ⇒ <code>Array</code>
     * [.addDomain(domain)](#module_mailcow-api.MailcowApiClient+addDomain) ⇒ <code>Boolean</code>
     * [.editDomain(domains, attributes)](#module_mailcow-api.MailcowApiClient+editDomain) ⇒ <code>Boolean</code>
+    * [.deleteDomain(domain)](#module_mailcow-api.MailcowApiClient+deleteDomain) ⇒ <code>Boolean</code>
     * [.addDKIM(dkim)](#module_mailcow-api.MailcowApiClient+addDKIM) ⇒ <code>Boolean</code>
     * [.getDKIM(domain)](#module_mailcow-api.MailcowApiClient+getDKIM) ⇒ <code>Object</code>
     * [.deleteDKIM(domain)](#module_mailcow-api.MailcowApiClient+deleteDKIM) ⇒ <code>Boolean</code>
@@ -182,7 +184,7 @@ Adds a domain to the server
 
 | Param | Type | Description |
 | --- | --- | --- |
-| domain | [<code>Domain</code>](#Domain) | The domain you want to set add |
+| domain | <code>String</code> \| [<code>Domain</code>](#Domain) | The domain you want to add |
 
 **Example**  
 ```js
@@ -209,6 +211,22 @@ await mcc.editDomain(["example.com"], {
             aliases: 399
         });
         //This will set the aliases of example.com to 399
+```
+<a name="module_mailcow-api.MailcowApiClient+deleteDomain"></a>
+
+#### mailcowApiClient.deleteDomain(domain) ⇒ <code>Boolean</code>
+Removes a domain from the server
+
+**Kind**: instance method of [<code>MailcowApiClient</code>](#module_mailcow-api.MailcowApiClient)  
+**Returns**: <code>Boolean</code> - True on success  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| domain | <code>String</code> \| <code>Array</code> | The domain/domains you want to delete |
+
+**Example**  
+```js
+await mcc.deleteDomain("example.com")
 ```
 <a name="module_mailcow-api.MailcowApiClient+addDKIM"></a>
 
@@ -256,7 +274,7 @@ Deletes the DKIM key for a domain on the mailcow server
 
 | Param | Type | Description |
 | --- | --- | --- |
-| domain | <code>String</code> | the domain name you want to delete the key for |
+| domain | <code>Array</code> | the domain name/names you want to delete the key for |
 
 **Example**  
 ```js
