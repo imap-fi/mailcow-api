@@ -147,7 +147,7 @@ module.exports.MailcowApiClient = class {
     }
     /**
      * Adds a domain to the server
-     * @param {Domain} domain The domain you want to set add
+     * @param {String|Domain} domain The domain you want to add
      * @returns {Boolean} True on success
      * @example
         await mcc.addDomain({
@@ -155,8 +155,12 @@ module.exports.MailcowApiClient = class {
         }))
      * */
     async addDomain(domain) {
-        if (!domain) throw new Error('Missing Domain Object');
-        if (!domain.domain) throw new Error('Domain object must contain a value for domain. Example: {domain:"example.com"}');
+        if (!domain) throw new Error('Missing Domain');
+        if (!domain.domain) {
+            domain = {
+                domain
+            };
+        }
         if (!domain.domain.match(/[A-Z-a-z0-9]+\.[A-Z-a-z0-9]+$/)) throw new Error('domain name is invalid');
 
         domain.active = typeof (domain.active) == 'undefined' ? 1 : domain.active;
@@ -204,6 +208,30 @@ module.exports.MailcowApiClient = class {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(body)
+        }).then(async (res) => {
+            const j = await res.json().catch();
+            if (j[0].type === 'success') return true;
+            console.error(j);
+            return false;
+        });
+    }
+    /**
+     * Removes a domain from the server
+     * @param {String|Array} domain The domain/domains you want to delete
+     * @returns {Boolean} True on success
+     * @example
+        await mcc.deleteDomain("example.com")
+     * */
+    async deleteDomain(domain) {
+        if (!Array.isArray(domain)) domain = [domain]
+
+        return f(`${this.baseurl}/api/v1/delete/domain`, {
+            method: 'POST',
+            headers: {
+                'X-Api-Key': this.apikey,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(domain)
         }).then(async (res) => {
             const j = await res.json().catch();
             if (j[0].type === 'success') return true;
@@ -266,20 +294,21 @@ module.exports.MailcowApiClient = class {
     }
     /**
      * Deletes the DKIM key for a domain on the mailcow server
-     * @param {String} domain the domain name you want to delete the key for
+     * @param {Array} domain the domain name/names you want to delete the key for
      * @returns {Boolean} true on success 
      * @example
         await mcc.deleteDKIM('example.com')
         //This will delete the DKIM key for the domain example.com from the mailcow server
      */
     async deleteDKIM(domain) {
+        if (!Array.isArray(domain)) domain = [domain]
         return f(`${this.baseurl}/api/v1/delete/dkim/`, {
             method: 'POST',
             headers: {
                 'X-Api-Key': this.apikey,
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify([domain])
+            body: JSON.stringify(domain)
         }).then(async (res) => {
             const j = await res.json().catch();
             if (j && j[0] && j[0].type === 'success') return true;
