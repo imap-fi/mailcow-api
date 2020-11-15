@@ -241,7 +241,7 @@ module.exports.MailcowApiClient = class {
     }
     /**
      * Generates a DKIM domain key for a domain
-     * @param {DKIM} dkim A DKIM object 
+     * @param {String|DKIM} dkim A DKIM object or string 
      * @returns {Boolean} True on success
      * @example
         await mcc.addDKIM({
@@ -325,7 +325,7 @@ module.exports.MailcowApiClient = class {
     }
     /**
      * Generates a DKIM domain key for a domain and returns it
-     * @param {DKIM} dkim A DKIM object 
+     * @param {String|DKIM} dkim A DKIM object or string
      * @returns {Object} DKIM key on success
      * @example
         await mcc.addAndGetDKIM({
@@ -334,6 +334,11 @@ module.exports.MailcowApiClient = class {
         //This will generate a DKIM key for example.com on the mailcow server and return it
      */
     async addAndGetDKIM(dkim) {
+        if (!dkim.domain) {
+            dkim = {
+                domain: dkim
+            };
+        }
         const res = await this.getDKIM(dkim.domain);
         if (res) return res;
         await this.addDKIM(dkim);
