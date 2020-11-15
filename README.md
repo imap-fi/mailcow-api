@@ -238,7 +238,7 @@ Generates a DKIM domain key for a domain
 
 | Param | Type | Description |
 | --- | --- | --- |
-| dkim | [<code>DKIM</code>](#DKIM) | A DKIM object |
+| dkim | <code>String</code> \| [<code>DKIM</code>](#DKIM) | A DKIM object or string |
 
 **Example**  
 ```js
@@ -291,7 +291,7 @@ Generates a DKIM domain key for a domain and returns it
 
 | Param | Type | Description |
 | --- | --- | --- |
-| dkim | [<code>DKIM</code>](#DKIM) | A DKIM object |
+| dkim | <code>String</code> \| [<code>DKIM</code>](#DKIM) | A DKIM object or string |
 
 **Example**  
 ```js
