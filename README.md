@@ -121,6 +121,7 @@ Feel free to contact me via [xl9jthv_7bvgakv9o9wg0jabn2ylm91xxrzzgt0e@y.gy](mail
         * [.addDomainAdmin(domainAdmin)](#module_mailcow-api.MailcowApiClient+addDomainAdmin) ⇒ <code>Object</code>
         * [.addMailbox(mailbox)](#module_mailcow-api.MailcowApiClient+addMailbox) ⇒ <code>Object</code>
         * [.deleteMailbox(mailboxes)](#module_mailcow-api.MailcowApiClient+deleteMailbox) ⇒ <code>Boolean</code>
+        * [.addAlias(address, goto)](#module_mailcow-api.MailcowApiClient+addAlias) ⇒ <code>Boolean</code>
 
 <a name="module_mailcow-api.MailcowApiClient"></a>
 
@@ -142,6 +143,7 @@ Class representing the Mailcow API client
     * [.addDomainAdmin(domainAdmin)](#module_mailcow-api.MailcowApiClient+addDomainAdmin) ⇒ <code>Object</code>
     * [.addMailbox(mailbox)](#module_mailcow-api.MailcowApiClient+addMailbox) ⇒ <code>Object</code>
     * [.deleteMailbox(mailboxes)](#module_mailcow-api.MailcowApiClient+deleteMailbox) ⇒ <code>Boolean</code>
+    * [.addAlias(address, goto)](#module_mailcow-api.MailcowApiClient+addAlias) ⇒ <code>Boolean</code>
 
 <a name="new_module_mailcow-api.MailcowApiClient_new"></a>
 
@@ -156,7 +158,21 @@ Create a Mailcow API client.
 
 **Example**  
 ```js
-const mcc = new MailcowApiClient(process.env.MAILCOW_API_BASEURL, process.env.MAILCOW_API_KEY);
+(async () => {
+    //get global variables
+    require('dotenv').config();
+    
+    //import the api client module
+    const {
+        MailcowApiClient
+    } = require("mailcow-api")
+
+    //create new mailcow api client with endpoint/baseurl and the api key
+    const mcc = new MailcowApiClient(process.env.MAILCOW_API_BASEURL, process.env.MAILCOW_API_KEY);
+
+    //get all domain on mailcow server
+    console.log(await mcc.getDomain());
+})();
 ```
 <a name="module_mailcow-api.MailcowApiClient+getDomain"></a>
 
@@ -355,6 +371,24 @@ Deletes a mailbox
 ```js
 await mcc.deleteMailbox("mail@example.com")
         //This will delete the mailbox mail@example.com
+```
+<a name="module_mailcow-api.MailcowApiClient+addAlias"></a>
+
+#### mailcowApiClient.addAlias(address, goto) ⇒ <code>Boolean</code>
+Adds an alias for a mailbox
+
+**Kind**: instance method of [<code>MailcowApiClient</code>](#module_mailcow-api.MailcowApiClient)  
+**Returns**: <code>Boolean</code> - true on success  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| address | <code>String</code> | alias address, for catchall use "@domain.tld" |
+| goto | <code>String</code> | destination address, comma separated |
+
+**Example**  
+```js
+await mcc.addAlias("@test.tld","mail@example.com")
+        //This will catch all mail for the domain test.tld and put it in the mailbox mail@example.com
 ```
 <a name="Domain"></a>
 
