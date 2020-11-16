@@ -454,4 +454,33 @@ module.exports.MailcowApiClient = class {
             return false;
         });
     }
+    /**
+     * Adds an alias for a mailbox 
+     * @param {String} address alias address, for catchall use "@domain.tld"
+     * @param {String} goto destination address, comma separated
+     * @returns {Boolean} true on success
+     * @example
+        await mcc.addAlias("@test.tld","mail@example.com")
+        //This will catch all mail for the domain test.tld and put it in the mailbox mail@example.com
+     */
+    async addAlias(address, goto) {
+        return f(`${this.baseurl}/api/v1/add/alias`, {
+            method: 'POST',
+            headers: {
+                'X-Api-Key': this.apikey,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                address,
+                goto,
+                active: "1"
+            })
+        }).then(async (res) => {
+            const j = await res.json().catch();
+            if (j && j[0] && j[0].type === 'success') return true;
+            console.error(j);
+            return false;
+        });
+    }
+
 }

@@ -1,6 +1,6 @@
 {
   "name": "mailcow-api",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "A wrapper for the mailcow API with basic functions",
   "main": "index.js",
   "repository": {
@@ -11,13 +11,23 @@
   "author": "Paul Colin Hennig",
   "license": "MIT",
   "dependencies": {
-    "node-fetch": "^2.6.0",
+    "node-fetch": "^2.6.1",
     "randomstring": "^1.1.5"
   },
+  "keywords": [
+    "mailcow",
+    "mail",
+    "api",
+    "wrapper",
+    "mailcowapi",
+    "mailcow-api",
+    "server",
+    "client"
+  ],
   "devDependencies": {
     "dotenv": "^8.2.0",
-    "eslint": "^7.7.0",
-    "jsdoc": "^3.6.5",
+    "eslint": "^7.13.0",
+    "jsdoc": "^3.6.6",
     "jsdoc-to-markdown": "^6.0.1"
   }
 }
