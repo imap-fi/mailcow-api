@@ -1,8 +1,14 @@
+# Mailcow Api
+<img draggable="none" src="https://git.y.gy/firstdorsal/mailcow-api/-/raw/master/logo.jpg" style="float:left; margin-right:10px;" height="100"> 
+
+## A wrapper for the **mailcow web API** with the most relevant functions.
+
 ![npm](https://ico.y.gy/npm/dm/mailcow-api?style=flat-square&logo=npm)
-![NPM](https://ico.y.gy/npm/l/mailcow-api?style=flat-square)
+![NPM](https://ico.y.gy/npm/l/mailcow-api?style=flat-square&color=brightgreen)
 [![Snyk Vulnerabilities for npm package](https://ico.y.gy/snyk/vulnerabilities/npm/mailcow-api?style=flat-square&logo=snyk)](https://snyk.io/test/npm/mailcow-api)
 [![Website](https://ico.y.gy/website?down_color=red&down_message=offline&label=documentation&up_color=success&up_message=online&url=https%3A%2F%2Fdoc.y.gy%2Fmailcow-api&style=flat-square)](https://doc.y.gy/mailcow-api/)
 [![Website](https://ico.y.gy/website?down_color=red&down_message=offline&label=repository&up_color=success&up_message=online&url=https%3A%2F%2Fgit.y.gy%2Ffirstdorsal%2Fmailcow-api&style=flat-square&logo=gitlab)](https://git.y.gy/firstdorsal/mailcow-api/)
+
 
 # Install
 ```
