@@ -505,6 +505,7 @@ module.exports.MailcowApiClient = class {
     /**
      * Updates Mailboxes
      * See the data structure here: https://demo.mailcow.email/api/#/Mailboxes/Update%20mailbox
+     * @function
      * @param {Mailbox[]} mailboxes mailboxes
      * @returns {MailboxAnswer[]} 
      * @example
@@ -547,11 +548,12 @@ module.exports.MailcowApiClient = class {
     };
 
     /**
-     * Updates Mailboxes
+     * Gets Mailboxes
+     * @function
      * @param {"all"|"user@domain.tld"} id "all" or "user@domain.tld"
      * @returns {Mailbox[]} 
      * @example
-     * const answer=await getMailboxes("all");
+     const answer=await getMailboxes("all");
      answer will be: [
   {
     "active": "1",
@@ -578,8 +580,6 @@ module.exports.MailcowApiClient = class {
     "username": "info@doman3.tld"
   }
 ]
-     * 
-    
     */
     getMailboxes = async id => {
         return f(`${this.baseurl}/api/v1/get/mailbox/${id}`, {
