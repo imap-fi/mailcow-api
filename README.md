@@ -122,8 +122,6 @@ Feel free to contact me via [xl9jthv_7bvgakv9o9wg0jabn2ylm91xxrzzgt0e@y.gy](mail
 * [mailcow-api](#module_mailcow-api)
     * [.MailcowApiClient](#module_mailcow-api.MailcowApiClient)
         * [new module.exports.MailcowApiClient(baseurl, apikey)](#new_module_mailcow-api.MailcowApiClient_new)
-        * [.updateMailboxes](#module_mailcow-api.MailcowApiClient+updateMailboxes) ⇒ <code>Array.&lt;MailboxAnswer&gt;</code>
-        * [.getMailboxes](#module_mailcow-api.MailcowApiClient+getMailboxes) ⇒ [<code>Array.&lt;Mailbox&gt;</code>](#Mailbox)
         * [.getDomain([domain])](#module_mailcow-api.MailcowApiClient+getDomain) ⇒ <code>Array</code>
         * [.addDomain(domain)](#module_mailcow-api.MailcowApiClient+addDomain) ⇒ <code>Boolean</code>
         * [.editDomain(domains, attributes)](#module_mailcow-api.MailcowApiClient+editDomain) ⇒ <code>Boolean</code>
@@ -136,6 +134,8 @@ Feel free to contact me via [xl9jthv_7bvgakv9o9wg0jabn2ylm91xxrzzgt0e@y.gy](mail
         * [.addMailbox(mailbox)](#module_mailcow-api.MailcowApiClient+addMailbox) ⇒ <code>Object</code>
         * [.deleteMailbox(mailboxes)](#module_mailcow-api.MailcowApiClient+deleteMailbox) ⇒ <code>Boolean</code>
         * [.addAlias(address, goto)](#module_mailcow-api.MailcowApiClient+addAlias) ⇒ <code>Boolean</code>
+        * [.updateMailboxes(mailboxes)](#module_mailcow-api.MailcowApiClient+updateMailboxes) ⇒ <code>Array.&lt;MailboxAnswer&gt;</code>
+        * [.getMailboxes(id)](#module_mailcow-api.MailcowApiClient+getMailboxes) ⇒ [<code>Array.&lt;Mailbox&gt;</code>](#Mailbox)
 
 <a name="module_mailcow-api.MailcowApiClient"></a>
 
@@ -146,8 +146,6 @@ Class representing the Mailcow API client
 
 * [.MailcowApiClient](#module_mailcow-api.MailcowApiClient)
     * [new module.exports.MailcowApiClient(baseurl, apikey)](#new_module_mailcow-api.MailcowApiClient_new)
-    * [.updateMailboxes](#module_mailcow-api.MailcowApiClient+updateMailboxes) ⇒ <code>Array.&lt;MailboxAnswer&gt;</code>
-    * [.getMailboxes](#module_mailcow-api.MailcowApiClient+getMailboxes) ⇒ [<code>Array.&lt;Mailbox&gt;</code>](#Mailbox)
     * [.getDomain([domain])](#module_mailcow-api.MailcowApiClient+getDomain) ⇒ <code>Array</code>
     * [.addDomain(domain)](#module_mailcow-api.MailcowApiClient+addDomain) ⇒ <code>Boolean</code>
     * [.editDomain(domains, attributes)](#module_mailcow-api.MailcowApiClient+editDomain) ⇒ <code>Boolean</code>
@@ -160,6 +158,8 @@ Class representing the Mailcow API client
     * [.addMailbox(mailbox)](#module_mailcow-api.MailcowApiClient+addMailbox) ⇒ <code>Object</code>
     * [.deleteMailbox(mailboxes)](#module_mailcow-api.MailcowApiClient+deleteMailbox) ⇒ <code>Boolean</code>
     * [.addAlias(address, goto)](#module_mailcow-api.MailcowApiClient+addAlias) ⇒ <code>Boolean</code>
+    * [.updateMailboxes(mailboxes)](#module_mailcow-api.MailcowApiClient+updateMailboxes) ⇒ <code>Array.&lt;MailboxAnswer&gt;</code>
+    * [.getMailboxes(id)](#module_mailcow-api.MailcowApiClient+getMailboxes) ⇒ [<code>Array.&lt;Mailbox&gt;</code>](#Mailbox)
 
 <a name="new_module_mailcow-api.MailcowApiClient_new"></a>
 
@@ -189,82 +189,6 @@ Create a Mailcow API client.
     //get all domain on mailcow server
     console.log(await mcc.getDomain());
 })();
-```
-<a name="module_mailcow-api.MailcowApiClient+updateMailboxes"></a>
-
-#### mailcowApiClient.updateMailboxes ⇒ <code>Array.&lt;MailboxAnswer&gt;</code>
-Updates Mailboxes
-See the data structure here: https://demo.mailcow.email/api/#/Mailboxes/Update%20mailbox
-
-**Kind**: instance property of [<code>MailcowApiClient</code>](#module_mailcow-api.MailcowApiClient)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| mailboxes | [<code>Array.&lt;Mailbox&gt;</code>](#Mailbox) | mailboxes |
-
-**Example**  
-```js
-await mcc.updateMailboxes({
-  "attr": {
-    "active": "1",
-    "force_pw_update": "0",
-    "name": "Full name",
-    "password": "",
-    "password2": "",
-    "quota": "3072",
-    "sender_acl": [
-      "default",
-      "info@domain2.tld",
-      "domain3.tld",
-      "*"
-    ],
-    "sogo_access": "1"
-  },
-  "items": [
-    "info@domain.tld"
-  ]
-})
-```
-<a name="module_mailcow-api.MailcowApiClient+getMailboxes"></a>
-
-#### mailcowApiClient.getMailboxes ⇒ [<code>Array.&lt;Mailbox&gt;</code>](#Mailbox)
-Updates Mailboxes
-
-**Kind**: instance property of [<code>MailcowApiClient</code>](#module_mailcow-api.MailcowApiClient)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| id | <code>&quot;all&quot;</code> \| <code>&quot;user@domain.tld&quot;</code> | "all" or "user@domain.tld" |
-
-**Example**  
-```js
-const answer=await getMailboxes("all");
-     answer will be: [
-  {
-    "active": "1",
-    "attributes": {
-      "force_pw_update": "0",
-      "mailbox_format": "maildir:",
-      "quarantine_notification": "never",
-      "sogo_access": "1",
-      "tls_enforce_in": "0",
-      "tls_enforce_out": "0"
-    },
-    "domain": "doman3.tld",
-    "is_relayed": 0,
-    "local_part": "info",
-    "max_new_quota": 10737418240,
-    "messages": 0,
-    "name": "Full name",
-    "percent_class": "success",
-    "percent_in_use": 0,
-    "quota": 3221225472,
-    "quota_used": 0,
-    "rl": false,
-    "spam_aliases": 0,
-    "username": "info@doman3.tld"
-  }
-]
 ```
 <a name="module_mailcow-api.MailcowApiClient+getDomain"></a>
 
@@ -481,6 +405,82 @@ Adds an alias for a mailbox
 ```js
 await mcc.addAlias("@test.tld","mail@example.com")
         //This will catch all mail for the domain test.tld and put it in the mailbox mail@example.com
+```
+<a name="module_mailcow-api.MailcowApiClient+updateMailboxes"></a>
+
+#### mailcowApiClient.updateMailboxes(mailboxes) ⇒ <code>Array.&lt;MailboxAnswer&gt;</code>
+Updates Mailboxes
+See the data structure here: https://demo.mailcow.email/api/#/Mailboxes/Update%20mailbox
+
+**Kind**: instance method of [<code>MailcowApiClient</code>](#module_mailcow-api.MailcowApiClient)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| mailboxes | [<code>Array.&lt;Mailbox&gt;</code>](#Mailbox) | mailboxes |
+
+**Example**  
+```js
+await mcc.updateMailboxes({
+  "attr": {
+    "active": "1",
+    "force_pw_update": "0",
+    "name": "Full name",
+    "password": "",
+    "password2": "",
+    "quota": "3072",
+    "sender_acl": [
+      "default",
+      "info@domain2.tld",
+      "domain3.tld",
+      "*"
+    ],
+    "sogo_access": "1"
+  },
+  "items": [
+    "info@domain.tld"
+  ]
+})
+```
+<a name="module_mailcow-api.MailcowApiClient+getMailboxes"></a>
+
+#### mailcowApiClient.getMailboxes(id) ⇒ [<code>Array.&lt;Mailbox&gt;</code>](#Mailbox)
+Gets Mailboxes
+
+**Kind**: instance method of [<code>MailcowApiClient</code>](#module_mailcow-api.MailcowApiClient)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| id | <code>&quot;all&quot;</code> \| <code>&quot;user@domain.tld&quot;</code> | "all" or "user@domain.tld" |
+
+**Example**  
+```js
+const answer=await getMailboxes("all");
+     answer will be: [
+  {
+    "active": "1",
+    "attributes": {
+      "force_pw_update": "0",
+      "mailbox_format": "maildir:",
+      "quarantine_notification": "never",
+      "sogo_access": "1",
+      "tls_enforce_in": "0",
+      "tls_enforce_out": "0"
+    },
+    "domain": "doman3.tld",
+    "is_relayed": 0,
+    "local_part": "info",
+    "max_new_quota": 10737418240,
+    "messages": 0,
+    "name": "Full name",
+    "percent_class": "success",
+    "percent_in_use": 0,
+    "quota": 3221225472,
+    "quota_used": 0,
+    "rl": false,
+    "spam_aliases": 0,
+    "username": "info@doman3.tld"
+  }
+]
 ```
 <a name="Domain"></a>
 
