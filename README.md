@@ -1,3 +1,4 @@
+**This is a mirror of [git.y.gy/firstdorsal/mailcow-api](https://git.y.gy/firstdorsal/mailcow-api)**
 # Mailcow Api
 <img draggable="none" src="https://git.y.gy/firstdorsal/mailcow-api/-/raw/master/logo.jpg" style="float:left; margin-right:10px;" height="100"> 
 
@@ -455,7 +456,9 @@ Gets Mailboxes
 **Example**  
 ```js
 const answer=await getMailboxes("all");
-     answer will be: [
+     //answer will be: 
+     
+     [
   {
     "active": "1",
     "attributes": {
