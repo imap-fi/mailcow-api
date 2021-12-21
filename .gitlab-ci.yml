@@ -1,70 +1,68 @@
 image: node:latest
 
 stages:
-  - makedoc
-  - mirror
-  - publish
+    - makedoc
+    - mirror
+    - publish
 
 makedoc:
-  stage: makedoc
-  script:
-    #install
-    - npm install docdash-orange jsdoc jsdoc-to-markdown
-    # generate doc
-    - cat README_basic.md > README.md
-    - node_modules/.bin/jsdoc2md index.js >> README.md
-    - node_modules/.bin/jsdoc index.js -t node_modules/docdash-orange --readme README_basic.md
-    # copy logo.jpg
-    - cp logo.jpg out/logo.jpg || true
-    # upload html doc
-    - cd out && tar -cf ../archive.tar . && cd ..
-    - curl -F file=@archive.tar "https://doc.y.gy/?project-name=$CI_PROJECT_NAME&token=$DOC_HOST_TOKEN" ; echo
-    # commit generated readme back to repo
-    - git config --global user.email "runner@$CI_SERVER_HOST"
-    - git config --global user.name "runner"
-    - git remote remove origin
-    - git remote add origin https://runner:$RUNNER_PASSWORD@$CI_SERVER_HOST/$CI_PROJECT_PATH
-    - git commit README.md -m "🤖 makedoc [skip ci]" || true
-    - git push --set-upstream origin HEAD:master || true
-    
+    stage: makedoc
+    script:
+        #install
+        - npm install docdash-orange jsdoc jsdoc-to-markdown
+        # generate doc
+        - cat README_basic.md > README.md
+        - node_modules/.bin/jsdoc2md index.js >> README.md
+        - node_modules/.bin/jsdoc index.js -t node_modules/docdash-orange --readme README_basic.md
+        # copy logo.jpg
+        - cp logo.jpg out/logo.jpg || true
+        # upload html doc
+        - cd out && tar -cf ../archive.tar . && cd ..
+        - curl -F file=@archive.tar "https://doc.y.gy/?project-name=$CI_PROJECT_NAME&token=$DOC_HOST_TOKEN" ; echo
+        # commit generated readme back to repo
+        - git config --global user.email "runner@$CI_SERVER_HOST"
+        - git config --global user.name "runner"
+        - git remote remove origin
+        - git remote add origin https://runner:$RUNNER_PASSWORD@$CI_SERVER_HOST/$CI_PROJECT_PATH
+        - git commit README.md -m "🤖 makedoc [skip ci]" || true
+        - git push --set-upstream origin HEAD:master || true
+
 mirror:
-  stage: mirror
-  script:
-    - DOC_URL=https://doc.y.gy
-    - USERNAME=firstdorsal
-    #install
-    - yarn add docdash-orange jsdoc jsdoc-to-markdown --dev
-    # generate doc
-    - echo "**This is a mirror of [$CI_SERVER_HOST/$CI_PROJECT_PATH](https://$CI_SERVER_HOST/$CI_PROJECT_PATH)**" > README.md
-    - cat README_basic.md >> README.md
-    #github
-    - node_modules/.bin/jsdoc2md index.js >> README.md
-    - git config --global user.email "runner@$CI_SERVER_HOST"
-    - git config --global user.name "runner"
-    - git fetch --unshallow origin || true
-    - git remote remove origin
-    - git remote add origin https://${USERNAME}:$GITHUB_TOKEN@github.com/$CI_PROJECT_PATH.git
-    - git add -A    
-    - git commit -m "🤖 mirror [skip ci]"
-    - curl -u "${USERNAME}:$GITHUB_TOKEN" https://api.github.com/user/repos -d "{\"name\":\"$CI_PROJECT_NAME\"}"
-    - curl --request PATCH -u "${USERNAME}:$GITHUB_TOKEN" https://api.github.com/repos/${USERNAME}/$CI_PROJECT_NAME -d "{\"description\":\"This is a mirror of ${CI_PROJECT_URL}\"}"
-    - git push --set-upstream origin HEAD:refs/heads/master -f
-    #gitlab
-    - git remote remove origin
-    - git remote add origin https://${USERNAME}:$GITLAB_TOKEN@gitlab.com/$CI_PROJECT_PATH.git
-    - curl --request POST "https://gitlab.com/api/v4/projects?visibility=public&private_token=$GITLAB_TOKEN&name=$CI_PROJECT_NAME" ; echo
-    - curl --request DELETE "https://gitlab.com/api/v4/projects/$CI_PROJECT_NAMESPACE%2F$CI_PROJECT_NAME/protected_branches/master?private_token=$GITLAB_TOKEN" ; echo
-    - git push --set-upstream origin HEAD:refs/heads/master -f
+    stage: mirror
+    script:
+        - DOC_URL=https://doc.y.gy
+        - USERNAME=firstdorsal
+        #install
+        - yarn add docdash-orange jsdoc jsdoc-to-markdown --dev
+        # generate doc
+        - echo "**This is a mirror of [$CI_SERVER_HOST/$CI_PROJECT_PATH](https://$CI_SERVER_HOST/$CI_PROJECT_PATH)**" > README.md
+        - cat README_basic.md >> README.md
+        #github
+        - node_modules/.bin/jsdoc2md index.js >> README.md
+        - git config --global user.email "runner@$CI_SERVER_HOST"
+        - git config --global user.name "runner"
+        - git fetch --unshallow origin || true
+        - git remote remove origin
+        - git remote add origin https://${USERNAME}:$GITHUB_TOKEN@github.com/$CI_PROJECT_PATH.git
+        - git add -A
+        - git commit -m "🤖 mirror [skip ci]"
+        - curl -u "${USERNAME}:$GITHUB_TOKEN" https://api.github.com/user/repos -d "{\"name\":\"$CI_PROJECT_NAME\"}"
+        - curl --request PATCH -u "${USERNAME}:$GITHUB_TOKEN" https://api.github.com/repos/${USERNAME}/$CI_PROJECT_NAME -d "{\"description\":\"This is a mirror of ${CI_PROJECT_URL}\"}"
+        - git push --set-upstream origin HEAD:refs/heads/master -f
+        #gitlab
+        - git remote remove origin
+        - git remote add origin https://${USERNAME}:$GITLAB_TOKEN@gitlab.com/$CI_PROJECT_PATH.git
+        - curl --request POST "https://gitlab.com/api/v4/projects?visibility=public&private_token=$GITLAB_TOKEN&name=$CI_PROJECT_NAME" ; echo
+        - curl --request DELETE "https://gitlab.com/api/v4/projects/$CI_PROJECT_NAMESPACE%2F$CI_PROJECT_NAME/protected_branches/master?private_token=$GITLAB_TOKEN" ; echo
+        - git push --set-upstream origin HEAD:refs/heads/master -f
 
 publish:
-  stage: publish
-  script:
-    #generate readme doc
-    - npm install jsdoc jsdoc-to-markdown --save-dev
-    - cat README_basic.md > README.md
-    - node_modules/.bin/jsdoc2md index.js >> README.md
-    #publish to npm
-    - echo '//registry.npmjs.org/:_authToken=$NPM_TOKEN'>.npmrc
-    - npm publish
-
-
+    stage: publish
+    script:
+        #generate readme doc
+        - npm install jsdoc jsdoc-to-markdown --save-dev
+        - cat README_basic.md > README.md
+        - node_modules/.bin/jsdoc2md index.js >> README.md
+        #publish to npm
+        - echo '//registry.npmjs.org/:_authToken=$NPM_TOKEN'>.npmrc
+        - npm publish --verbose --access public
