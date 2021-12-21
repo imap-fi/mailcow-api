@@ -1,5 +1,5 @@
-'use strict';
-const f = require("node-fetch")
+"use strict";
+const f = require("node-fetch");
 const rs = require("randomstring");
 
 /**
@@ -31,7 +31,6 @@ const rs = require("randomstring");
     }
  *
  */
-
 
 /**
 * Object representing a DKIM Key
@@ -87,9 +86,6 @@ const rs = require("randomstring");
  
  * */
 
-
-
-
 /** @module mailcow-api */
 /** 
  * @class Class representing the Mailcow API client 
@@ -132,18 +128,18 @@ module.exports.MailcowApiClient = class {
      * await mcc.getDomain()
      * */
     async getDomain(domain) {
-        if (!domain || !domain.length) domain = "all"
+        if (!domain || !domain.length) domain = "all";
         return f(`${this.baseurl}/api/v1/get/domain/${domain}`, {
-            method: 'GET',
+            method: "GET",
             headers: {
-                'X-Api-Key': this.apikey
+                "X-Api-Key": this.apikey
             }
-        }).then(async (res) => {
+        }).then(async res => {
             const j = await res.json().catch();
-            if (!j.length) return [j]
+            if (!j.length) return [j];
             console.error(j);
             return false;
-        })
+        });
     }
     /**
      * Adds a domain to the server
@@ -155,31 +151,32 @@ module.exports.MailcowApiClient = class {
         }))
      * */
     async addDomain(domain) {
-        if (!domain) throw new Error('Missing Domain');
+        if (!domain) throw new Error("Missing Domain");
         if (!domain.domain) {
             domain = {
                 domain
             };
         }
-        if (!domain.domain.match(/[A-Z-a-z0-9]+\.[A-Z-a-z0-9]+$/)) throw new Error('domain name is invalid');
+        if (!domain.domain.match(/[A-Z-a-z0-9]+\.[A-Z-a-z0-9]+$/))
+            throw new Error("domain name is invalid");
 
-        domain.active = typeof (domain.active) == 'undefined' ? 1 : domain.active;
-        domain.aliases = typeof (domain.aliases) == 'undefined' ? 400 : domain.aliases;
-        domain.defquota = typeof (domain.defquota) == 'undefined' ? 3072 : domain.defquota;
-        domain.mailboxes = typeof (domain.mailboxes) == 'undefined' ? 10 : domain.mailboxes;
-        domain.maxquota = typeof (domain.maxquota) == 'undefined' ? 10240 : domain.maxquota;
-        domain.quota = typeof (domain.quota) == 'undefined' ? 10240 : domain.quota;
+        domain.active = typeof domain.active == "undefined" ? 1 : domain.active;
+        domain.aliases = typeof domain.aliases == "undefined" ? 400 : domain.aliases;
+        domain.defquota = typeof domain.defquota == "undefined" ? 3072 : domain.defquota;
+        domain.mailboxes = typeof domain.mailboxes == "undefined" ? 10 : domain.mailboxes;
+        domain.maxquota = typeof domain.maxquota == "undefined" ? 10240 : domain.maxquota;
+        domain.quota = typeof domain.quota == "undefined" ? 10240 : domain.quota;
 
         return f(`${this.baseurl}/api/v1/add/domain`, {
-            method: 'POST',
+            method: "POST",
             headers: {
-                'X-Api-Key': this.apikey,
+                "X-Api-Key": this.apikey,
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(domain)
-        }).then(async (res) => {
+        }).then(async res => {
             const j = await res.json().catch();
-            if (j[0].type === 'success') return true;
+            if (j[0].type === "success") return true;
             console.error(j);
             return false;
         });
@@ -196,21 +193,21 @@ module.exports.MailcowApiClient = class {
         //This will set the aliases of example.com to 399
      */
     async editDomain(domains, attributes) {
-        if (typeof domains === 'string') domains = [domains];
+        if (typeof domains === "string") domains = [domains];
         const body = {
             items: domains,
             attr: attributes
-        }
+        };
         return f(`${this.baseurl}/api/v1/edit/domain`, {
-            method: 'POST',
+            method: "POST",
             headers: {
-                'X-Api-Key': this.apikey,
+                "X-Api-Key": this.apikey,
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(body)
-        }).then(async (res) => {
+        }).then(async res => {
             const j = await res.json().catch();
-            if (j[0].type === 'success') return true;
+            if (j[0].type === "success") return true;
             console.error(j);
             return false;
         });
@@ -223,18 +220,18 @@ module.exports.MailcowApiClient = class {
         await mcc.deleteDomain("example.com")
      * */
     async deleteDomain(domain) {
-        if (!Array.isArray(domain)) domain = [domain]
+        if (!Array.isArray(domain)) domain = [domain];
 
         return f(`${this.baseurl}/api/v1/delete/domain`, {
-            method: 'POST',
+            method: "POST",
             headers: {
-                'X-Api-Key': this.apikey,
+                "X-Api-Key": this.apikey,
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(domain)
-        }).then(async (res) => {
+        }).then(async res => {
             const j = await res.json().catch();
-            if (j[0].type === 'success') return true;
+            if (j[0].type === "success") return true;
             console.error(j);
             return false;
         });
@@ -258,23 +255,27 @@ module.exports.MailcowApiClient = class {
             dkim.domains = dkim.domain;
         }
 
-        if (!dkim) throw new Error('DKIM Key must be provided as DKIM Object');
-        if (!dkim.domains) throw new Error('DKIM object must contain a domain name. Example: {domains:"example.com"}');
-        if (!dkim.domains.match(/[A-Z-a-z0-9]+\.[A-Z-a-z0-9]+$/)) throw new Error('domain name is invalid');
+        if (!dkim) throw new Error("DKIM Key must be provided as DKIM Object");
+        if (!dkim.domains)
+            throw new Error(
+                'DKIM object must contain a domain name. Example: {domains:"example.com"}'
+            );
+        if (!dkim.domains.match(/[A-Z-a-z0-9]+\.[A-Z-a-z0-9]+$/))
+            throw new Error("domain name is invalid");
 
-        dkim.dkim_selector = typeof (dkim.dkim_selector) == 'undefined' ? 'dkim' : dkim.dkim_selector;
-        dkim.key_size = typeof (dkim.key_size) == 'undefined' ? 2048 : dkim.key_size;
+        dkim.dkim_selector = typeof dkim.dkim_selector == "undefined" ? "dkim" : dkim.dkim_selector;
+        dkim.key_size = typeof dkim.key_size == "undefined" ? 2048 : dkim.key_size;
 
         return f(`${this.baseurl}/api/v1/add/dkim`, {
-            method: 'POST',
+            method: "POST",
             headers: {
-                'X-Api-Key': this.apikey,
+                "X-Api-Key": this.apikey,
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(dkim)
-        }).then(async (res) => {
+        }).then(async res => {
             const j = await res.json().catch();
-            if (j && j[0] && j[0].type === 'success') return true;
+            if (j && j[0] && j[0].type === "success") return true;
             console.error(j);
             return false;
         });
@@ -289,11 +290,11 @@ module.exports.MailcowApiClient = class {
      */
     async getDKIM(domain) {
         return f(`${this.baseurl}/api/v1/get/dkim/${domain}`, {
-            method: 'GET',
+            method: "GET",
             headers: {
-                'X-Api-Key': this.apikey
+                "X-Api-Key": this.apikey
             }
-        }).then(async (res) => {
+        }).then(async res => {
             const j = await res.json().catch();
             if (j.pubkey) return j;
             return false;
@@ -308,17 +309,17 @@ module.exports.MailcowApiClient = class {
         //This will delete the DKIM key for the domain example.com from the mailcow server
      */
     async deleteDKIM(domain) {
-        if (!Array.isArray(domain)) domain = [domain]
+        if (!Array.isArray(domain)) domain = [domain];
         return f(`${this.baseurl}/api/v1/delete/dkim/`, {
-            method: 'POST',
+            method: "POST",
             headers: {
-                'X-Api-Key': this.apikey,
+                "X-Api-Key": this.apikey,
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(domain)
-        }).then(async (res) => {
+        }).then(async res => {
             const j = await res.json().catch();
-            if (j && j[0] && j[0].type === 'success') return true;
+            if (j && j[0] && j[0].type === "success") return true;
             console.error(j);
             return false;
         });
@@ -355,34 +356,42 @@ module.exports.MailcowApiClient = class {
         //This will add an admin for the domains example.com and example.org and return their credentials
      */
     async addDomainAdmin(domainAdmin) {
-        if (!domainAdmin) throw new Error('Domain admin must be provided as DomainAdmin Object');
-        if (!domainAdmin.domains) throw new Error('Domain admin object must contain a domain name. Example: {domains:"example.com"}');
-        if (typeof domainAdmin.domains === 'string') domainAdmin.domains = [domainAdmin.domains];
-        if (!domainAdmin.domains[0].match(/[A-Z-a-z0-9]+\.[A-Z-a-z0-9]+$/)) throw new Error('domain name is invalid');
+        if (!domainAdmin) throw new Error("Domain admin must be provided as DomainAdmin Object");
+        if (!domainAdmin.domains)
+            throw new Error(
+                'Domain admin object must contain a domain name. Example: {domains:"example.com"}'
+            );
+        if (typeof domainAdmin.domains === "string") domainAdmin.domains = [domainAdmin.domains];
+        if (!domainAdmin.domains[0].match(/[A-Z-a-z0-9]+\.[A-Z-a-z0-9]+$/))
+            throw new Error("domain name is invalid");
 
-        domainAdmin.active = typeof (domainAdmin.active) == 'undefined' ? 1 : domainAdmin.active;
-        domainAdmin.password = typeof (domainAdmin.password) == 'undefined' ? rs.generate(100) : domainAdmin.password;
-        domainAdmin.username = typeof (domainAdmin.username) == 'undefined' ? "domain_admin_" + rs.generate(20) : domainAdmin.username;
+        domainAdmin.active = typeof domainAdmin.active == "undefined" ? 1 : domainAdmin.active;
+        domainAdmin.password =
+            typeof domainAdmin.password == "undefined" ? rs.generate(100) : domainAdmin.password;
+        domainAdmin.username =
+            typeof domainAdmin.username == "undefined"
+                ? "domain_admin_" + rs.generate(20)
+                : domainAdmin.username;
         domainAdmin.password2 = domainAdmin.password;
 
         return f(`${this.baseurl}/api/v1/add/domain-admin`, {
-            method: 'POST',
+            method: "POST",
             headers: {
-                'X-Api-Key': this.apikey,
+                "X-Api-Key": this.apikey,
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(domainAdmin)
-        }).then(async (res) => {
+        }).then(async res => {
             const j = await res.json().catch();
-            if (j && j[0] && j[0].type === 'success') return {
-                username: domainAdmin.username,
-                password: domainAdmin.password,
-                domains: domainAdmin.domains
-            };
+            if (j && j[0] && j[0].type === "success")
+                return {
+                    username: domainAdmin.username,
+                    password: domainAdmin.password,
+                    domains: domainAdmin.domains
+                };
             console.error(j);
             return false;
         });
-
     }
     /**
      * Adds a mailbox for a domain to the mailcow server
@@ -396,34 +405,40 @@ module.exports.MailcowApiClient = class {
         //This will add a mailbox for the domain example.com and return it 
      */
     async addMailbox(mailbox) {
-        if (!mailbox) throw new Error('Mailbox must be provided as Mailbox Object');
-        if (!mailbox.domain) throw new Error('Mailbox object must at least contain a domain name. Example: {domain:"example.com"}');
-        if (!mailbox.domain.match(/[A-Z-a-z0-9]+\.[A-Z-a-z0-9]+$/)) throw new Error('domain name is invalid');
+        if (!mailbox) throw new Error("Mailbox must be provided as Mailbox Object");
+        if (!mailbox.domain)
+            throw new Error(
+                'Mailbox object must at least contain a domain name. Example: {domain:"example.com"}'
+            );
+        if (!mailbox.domain.match(/[A-Z-a-z0-9]+\.[A-Z-a-z0-9]+$/))
+            throw new Error("domain name is invalid");
 
-        mailbox.active = typeof (mailbox.active) == 'undefined' ? 1 : mailbox.active;
-        mailbox.password = typeof (mailbox.password) == 'undefined' ? rs.generate(100) : mailbox.password;
+        mailbox.active = typeof mailbox.active == "undefined" ? 1 : mailbox.active;
+        mailbox.password =
+            typeof mailbox.password == "undefined" ? rs.generate(100) : mailbox.password;
         mailbox.password2 = mailbox.password;
-        mailbox.quota = typeof (mailbox.quota) == 'undefined' ? 3072 : mailbox.quota;
-        mailbox.name = typeof (mailbox.name) == 'undefined' ? 'John Doe' : mailbox.name;
-        mailbox.local_part = typeof (mailbox.local_part) == 'undefined' ? 'mail' : mailbox.local_part;
+        mailbox.quota = typeof mailbox.quota == "undefined" ? 3072 : mailbox.quota;
+        mailbox.name = typeof mailbox.name == "undefined" ? "John Doe" : mailbox.name;
+        mailbox.local_part = typeof mailbox.local_part == "undefined" ? "mail" : mailbox.local_part;
 
         return f(`${this.baseurl}/api/v1/add/mailbox`, {
-            method: 'POST',
+            method: "POST",
             headers: {
-                'X-Api-Key': this.apikey,
+                "X-Api-Key": this.apikey,
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(mailbox)
-        }).then(async (res) => {
+        }).then(async res => {
             const j = await res.json().catch();
-            if (j && j[0] && j[0].type === 'success') return {
-                username: mailbox.local_part + '@' + mailbox.domain,
-                password: mailbox.password,
-                domain: mailbox.domain,
-                name: mailbox.name,
-                local_part: mailbox.local_part,
-                quota: mailbox.quota
-            };
+            if (j && j[0] && j[0].type === "success")
+                return {
+                    username: mailbox.local_part + "@" + mailbox.domain,
+                    password: mailbox.password,
+                    domain: mailbox.domain,
+                    name: mailbox.name,
+                    local_part: mailbox.local_part,
+                    quota: mailbox.quota
+                };
             console.error(j);
             return false;
         });
@@ -437,19 +452,20 @@ module.exports.MailcowApiClient = class {
         //This will delete the mailbox mail@example.com
      */
     async deleteMailbox(mailboxes) {
-        if (typeof mailboxes === 'string') mailboxes = [mailboxes];
-        if (!mailboxes[0].match(/[A-Z-a-z0-9]+\.[A-Z-a-z0-9]+$/)) throw new Error('domain name is invalid');
+        if (typeof mailboxes === "string") mailboxes = [mailboxes];
+        if (!mailboxes[0].match(/[A-Z-a-z0-9]+\.[A-Z-a-z0-9]+$/))
+            throw new Error("domain name is invalid");
 
         return f(`${this.baseurl}/api/v1/delete/mailbox`, {
-            method: 'POST',
+            method: "POST",
             headers: {
-                'X-Api-Key': this.apikey,
+                "X-Api-Key": this.apikey,
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(mailboxes)
-        }).then(async (res) => {
+        }).then(async res => {
             const j = await res.json().catch();
-            if (j && j[0] && j[0].type === 'success') return true;
+            if (j && j[0] && j[0].type === "success") return true;
             console.error(j);
             return false;
         });
@@ -465,9 +481,9 @@ module.exports.MailcowApiClient = class {
      */
     async addAlias(address, goto) {
         return f(`${this.baseurl}/api/v1/add/alias`, {
-            method: 'POST',
+            method: "POST",
             headers: {
-                'X-Api-Key': this.apikey,
+                "X-Api-Key": this.apikey,
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
@@ -475,12 +491,105 @@ module.exports.MailcowApiClient = class {
                 goto,
                 active: "1"
             })
-        }).then(async (res) => {
+        }).then(async res => {
             const j = await res.json().catch();
-            if (j && j[0] && j[0].type === 'success') return true;
+            if (j && j[0] && j[0].type === "success") return true;
             console.error(j);
             return false;
         });
     }
+    /**
+     * Updates Mailboxes
+     * See the data structure here: https://demo.mailcow.email/api/#/Mailboxes/Update%20mailbox
+     * @param {Mailbox[]} mailboxes mailboxes
+     * @returns {MailboxAnswer[]} 
+     * @example
+        await mcc.updateMailboxes({
+  "attr": {
+    "active": "1",
+    "force_pw_update": "0",
+    "name": "Full name",
+    "password": "",
+    "password2": "",
+    "quota": "3072",
+    "sender_acl": [
+      "default",
+      "info@domain2.tld",
+      "domain3.tld",
+      "*"
+    ],
+    "sogo_access": "1"
+  },
+  "items": [
+    "info@domain.tld"
+  ]
+})
+     */
+    updateMailboxes = async mailboxes => {
+        return f(`${this.baseurl}/api/v1/edit/mailbox`, {
+            method: "POST",
+            headers: {
+                "X-Api-Key": this.apikey,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(mailbox)
+        }).then(async res => {
+            const j = await res.json().catch();
+            if (res.status !== 200) {
+                throw Error(res.status + ` ` + j === undefined ? "" : JSON.stringify(j));
+            }
+            return j;
+        });
+    };
 
-}
+    /**
+     * Updates Mailboxes
+     * @param {"all"|"user@domain.tld"} id "all" or "user@domain.tld"
+     * @returns {Mailbox[]} 
+     * @example
+     * const answer=await getMailboxes("all");
+     answer will be: [
+  {
+    "active": "1",
+    "attributes": {
+      "force_pw_update": "0",
+      "mailbox_format": "maildir:",
+      "quarantine_notification": "never",
+      "sogo_access": "1",
+      "tls_enforce_in": "0",
+      "tls_enforce_out": "0"
+    },
+    "domain": "doman3.tld",
+    "is_relayed": 0,
+    "local_part": "info",
+    "max_new_quota": 10737418240,
+    "messages": 0,
+    "name": "Full name",
+    "percent_class": "success",
+    "percent_in_use": 0,
+    "quota": 3221225472,
+    "quota_used": 0,
+    "rl": false,
+    "spam_aliases": 0,
+    "username": "info@doman3.tld"
+  }
+]
+     * 
+    
+    */
+    getMailboxes = async id => {
+        return f(`${this.baseurl}/api/v1/get/mailbox/${id}`, {
+            method: "GET",
+            headers: {
+                "X-Api-Key": this.apikey,
+                "Content-Type": "application/json"
+            }
+        }).then(async res => {
+            const j = await res.json().catch();
+            if (res.status !== 200) {
+                throw Error(res.status + ` ` + j === undefined ? "" : JSON.stringify(j));
+            }
+            return j;
+        });
+    };
+};
