@@ -1,6 +1,10 @@
 "use strict";
-const f = require("node-fetch");
-const rs = require("randomstring");
+const f = require("cross-fetch");
+const crypto = require("crypto");
+
+const randomString = (length = 100) => {
+    return crypto.randomBytes(length).toString("base64url").replaceAll("=", "");
+};
 
 /**
  * For all options check out {@link https://demo.mailcow.email/api/}
@@ -367,10 +371,10 @@ module.exports.MailcowApiClient = class {
 
         domainAdmin.active = typeof domainAdmin.active == "undefined" ? 1 : domainAdmin.active;
         domainAdmin.password =
-            typeof domainAdmin.password == "undefined" ? rs.generate(100) : domainAdmin.password;
+            typeof domainAdmin.password == "undefined" ? randomString() : domainAdmin.password;
         domainAdmin.username =
             typeof domainAdmin.username == "undefined"
-                ? "domain_admin_" + rs.generate(20)
+                ? "domain_admin_" + randomString(20)
                 : domainAdmin.username;
         domainAdmin.password2 = domainAdmin.password;
 
@@ -415,7 +419,7 @@ module.exports.MailcowApiClient = class {
 
         mailbox.active = typeof mailbox.active == "undefined" ? 1 : mailbox.active;
         mailbox.password =
-            typeof mailbox.password == "undefined" ? rs.generate(100) : mailbox.password;
+            typeof mailbox.password == "undefined" ? randomString() : mailbox.password;
         mailbox.password2 = mailbox.password;
         mailbox.quota = typeof mailbox.quota == "undefined" ? 3072 : mailbox.quota;
         mailbox.name = typeof mailbox.name == "undefined" ? "John Doe" : mailbox.name;

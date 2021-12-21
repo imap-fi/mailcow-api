@@ -1,31 +1,30 @@
 {
-  "name": "mailcow-api",
-  "version": "1.2.6",
-  "description": "A wrapper for the mailcow wep API with the most relevant functions.",
-  "main": "index.js",
-  "repository": {
-    "type": "git",
-    "url": "http://git.y.gy/firstdorsal/mailcow-api.git"
-  },
-  "homepage": "https://doc.y.gy/mailcow-api/",
-  "author": "Paul Colin Hennig",
-  "license": "MIT",
-  "dependencies": {
-    "node-fetch": "^2.6.1",
-    "randomstring": "^1.1.5"
-  },
-  "keywords": [
-    "mailcow",
-    "mail",
-    "api",
-    "wrapper",
-    "mailcowapi",
-    "mailcow-api",
-    "server",
-    "client"
-  ],
-  "devDependencies": {
-    "dotenv": "^8.2.0",
-    "eslint": "^7.13.0"
-  }
+    "name": "mailcow-api",
+    "version": "1.2.7",
+    "description": "A wrapper for the mailcow wep API with the most relevant functions.",
+    "main": "index.js",
+    "repository": {
+        "type": "git",
+        "url": "http://git.y.gy/firstdorsal/mailcow-api.git"
+    },
+    "homepage": "https://doc.y.gy/mailcow-api/",
+    "author": "Paul Colin Hennig",
+    "license": "MIT",
+    "dependencies": {
+        "cross-fetch": "^3.1.4"
+    },
+    "keywords": [
+        "mailcow",
+        "mail",
+        "api",
+        "wrapper",
+        "mailcowapi",
+        "mailcow-api",
+        "server",
+        "client"
+    ],
+    "devDependencies": {
+        "dotenv": "^8.2.0",
+        "eslint": "^7.13.0"
+    }
 }
