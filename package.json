@@ -1,5 +1,5 @@
 {
-    "name": "@firstdorsal/mailcow-api",
+    "name": "mailcow-api",
     "version": "1.2.6",
     "description": "A wrapper for the mailcow wep API with the most relevant functions.",
     "main": "index.js",
