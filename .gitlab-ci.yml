@@ -65,5 +65,4 @@ publish:
         - node_modules/.bin/jsdoc2md index.js >> README.md
         #publish to npm
         - echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}'>.npmrc
-        - npm login
         - npm publish --verbose --access public
