@@ -554,7 +554,9 @@ module.exports.MailcowApiClient = class {
      * @returns {Mailbox[]} 
      * @example
      const answer=await getMailboxes("all");
-     answer will be: [
+     //answer will be: 
+     
+     [
   {
     "active": "1",
     "attributes": {
